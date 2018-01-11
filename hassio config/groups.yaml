@@ -1,0 +1,5 @@
+default_view:
+ view: yes
+ icon: mdi:home 
+ entities:
+   - switch.main_door

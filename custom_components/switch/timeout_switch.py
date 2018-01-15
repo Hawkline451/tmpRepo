@@ -27,7 +27,8 @@ CONF_INVERT_LOGIC = 'invert_logic'
 CONF_TIMEOUT = 'timeout'
 
 DEFAULT_INVERT_LOGIC = False
-DEFAULT_TIMEOUT = 500 #ms
+#ms
+DEFAULT_TIMEOUT = "00:00:01" 
 
 _SWITCHES_SCHEMA = vol.Schema({
     cv.positive_int: cv.string,
@@ -36,14 +37,21 @@ _SWITCHES_SCHEMA = vol.Schema({
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_PORTS): _SWITCHES_SCHEMA,
     vol.Optional(CONF_INVERT_LOGIC, default=DEFAULT_INVERT_LOGIC): cv.boolean,
-    vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): cv.positive_int
+    vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): cv.string
 })
+
+#Get seconds from string "hours:minutes:seconds"
+def seconds(strTime):
+    sec = strTime.split(":")
+    sec = int(sec[0]) * pow(60, 2) + int(sec[1]) * 60 + int(sec[2])
+    return sec
 
 # pylint: disable=unused-argument
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the Raspberry PI GPIO devices."""
     invert_logic = config.get(CONF_INVERT_LOGIC)
-    timeout = config.get(CONF_TIMEOUT)/1000
+    #In seconds
+    timeout = seconds(config.get(CONF_TIMEOUT))
 
     switches = []
     ports = config.get(CONF_PORTS)
@@ -86,13 +94,10 @@ class timeoutSwitch(ToggleEntity):
         self._state = True
         self.schedule_update_ha_state()        
         sleep(self._timeout) # Time in seconds.
-#        rpi_gpio.write_output(self._port, 1 if self._invert_logic else 0)
-#        self._state = False
-#        self.schedule_update_ha_state()
         self.turn_off(**kwargs)
 
     def turn_off(self, **kwargs):
-        """Turn off the device on."""
+        """Turn the device off."""
         rpi_gpio.write_output(self._port, 1 if self._invert_logic else 0)
         self._state = False
         self.schedule_update_ha_state()

@@ -3,7 +3,7 @@ document.getElementById('send').addEventListener('click', sendToStorage);
 function sendToStorage(){
   console.log("sup");
   var my_data = getData();
-  chrome.runtime.sendMessage(window.autopac_extension_id,{type: "sendData", data:my_data}, function(response) {});
+  chrome.runtime.sendMessage(window.autopac_extension_id ,{type: "sendData", data:my_data}, function(response) {});
 }
 
 function getData() {

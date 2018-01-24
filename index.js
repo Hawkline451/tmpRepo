@@ -1,10 +1,18 @@
 document.getElementById('send').addEventListener('click', sendToStorage);
+document.getElementById('install').addEventListener('click', installAutopac);
 
 function sendToStorage(){
   console.log("sup");
   var my_data = getData();
   chrome.runtime.sendMessage(window.autopac_extension_id ,{type: "sendData", data:my_data}, function(response) {});
 }
+
+function installAutopac(){
+ chrome.webstore.install(successCallback, failureCallback)
+}
+
+function successCallback(){}
+function failureCallback(){}
 
 function getData() {
   var obj = {};

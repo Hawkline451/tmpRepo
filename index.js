@@ -8,7 +8,7 @@ function sendToStorage(){
 }
 
 function installAutopac(){
- chrome.webstore.install("https://chrome.google.com/webstore/detail/autopac/gnhmemcbpgpoldkclcllbakonfeokdjd",successCallback, failureCallback)
+ chrome.webstore.install("https://chrome.google.com/webstore/detail/gnhmemcbpgpoldkclcllbakonfeokdjd",successCallback, failureCallback)
 }
 
 function successCallback(){}

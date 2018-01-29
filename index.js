@@ -30,8 +30,8 @@ function getData() {
   
   obj.programacion = {};
   frecuencia && (obj.programacion.frecuencia = frecuencia.value);
-  fechaInicio && (obj.programacion.fechaInicio = (new Date (fechaInicio.value)).toString() );
-  fechaTermino && (obj.programacion.fechaTermino = (new Date (fechaTermino.value)).toString() );
+  fechaInicio && (obj.programacion.fechaInicio = fechaInicio.value + " EDT" );
+  fechaTermino && (obj.programacion.fechaTermino = fechaTermino.value + " EDT" );
   // delete property if empty
   if (Object.keys(obj.destinatario).length === 0) delete obj.destinatario; 
   if (Object.keys(obj.programacion).length === 0) delete obj.programacion;
